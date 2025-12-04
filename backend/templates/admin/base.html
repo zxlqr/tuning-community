@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}">
+<style>
+/* Дополнительные стили для совместимости */
+body {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+}
+</style>
+{% endblock %}
+

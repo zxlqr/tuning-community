@@ -1,0 +1,121 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+  padding: 3rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(231, 223, 204, 0.2);
+  width: 100%;
+  max-width: 450px;
+  backdrop-filter: blur(10px);
+}
+
+.auth-card h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: "Roboto", sans-serif;
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #e7dfcc;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(231, 223, 204, 0.1);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 0.875rem;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #e7dfcc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.auth-card button:hover {
+  background: #e7dfcc;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 223, 204, 0.4);
+}
+
+.error {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  color: #ff6b6b;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.auth-card p {
+  text-align: center;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-card a {
+  color: #e7dfcc;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.auth-card a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+

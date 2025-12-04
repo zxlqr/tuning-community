@@ -1,0 +1,49 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+}
+
+/* Для страниц с фоном убираем padding, чтобы фон был виден */
+.main-content:has(.page-background) {
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* Темный фон для страниц магазина, мероприятий, форума, профиля и машин */
+.main-content:has(.shop-brand),
+.main-content:has(.product-detail-page),
+.main-content:has(.events),
+.main-content:has(.forum-page),
+.main-content:has(.forum-category-page),
+.main-content:has(.forum-topic-page),
+.main-content:has(.create-topic-page),
+.main-content:has(.my-cars),
+.main-content:has(.profile) {
+  background: #000000;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .main-content:has(.page-background) {
+    padding: 0;
+  }
+}
+

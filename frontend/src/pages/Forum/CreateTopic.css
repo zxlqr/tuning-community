@@ -1,0 +1,247 @@
+.create-topic-page {
+  min-height: 100vh;
+  background: #000000;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.create-topic-header {
+  margin-bottom: 2rem;
+}
+
+.create-topic-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.category-info {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+}
+
+.category-info strong {
+  color: #ffffff;
+}
+
+.create-topic-form {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #e7dfcc;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(231, 223, 204, 0.3);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #e7dfcc;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.form-group input.error,
+.form-group textarea.error {
+  border-color: #d32f2f;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 200px;
+}
+
+.error-message {
+  display: block;
+  color: #d32f2f;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.general-error {
+  background: #ffebee;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.char-count {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: right;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.submit-btn,
+.cancel-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn {
+  background: #e7dfcc;
+  color: #202020;
+  font-weight: 600;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #d4c9b0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 223, 204, 0.3);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e7dfcc;
+  border: 1px solid rgba(231, 223, 204, 0.3);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.auth-required {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(231, 223, 204, 0.3);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.auth-required h2 {
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.auth-required p {
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-required button {
+  padding: 0.75rem 1.5rem;
+  background: #e7dfcc;
+  color: #202020;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-required button:hover {
+  background: #d4c9b0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 223, 204, 0.3);
+}
+
+/* Стили для загрузки изображений */
+.image-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px dashed rgba(231, 223, 204, 0.3);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #e7dfcc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.image-input:hover {
+  border-color: #e7dfcc;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.image-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.image-preview {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(231, 223, 204, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.remove-image-btn:hover {
+  background: rgba(255, 0, 0, 1);
+  transform: scale(1.1);
+}
+

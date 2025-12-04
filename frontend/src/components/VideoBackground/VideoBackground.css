@@ -1,0 +1,55 @@
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.video-background__video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  filter: brightness(0.7) contrast(1.1);
+}
+
+.video-background__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(32, 32, 32, 0.3) 0%,
+    rgba(32, 32, 32, 0.2) 50%,
+    rgba(32, 32, 32, 0.3) 100%
+  );
+  z-index: 1;
+}
+
+/* Дополнительный эффект - бежевые акценты на фоне (уменьшено) */
+.video-background__overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(231, 223, 204, 0.02) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+

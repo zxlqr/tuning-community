@@ -1,0 +1,17 @@
+/**
+ * Общие стили для фона страниц
+ * 
+ * Применяется ко всем страницам, кроме лендинга.
+ * Видео-фон добавляется через компонент VideoBackground в Layout.
+ */
+
+/* Контейнер для страниц с видео-фоном */
+.page-background {
+  position: relative;
+  min-height: calc(100vh - 200px);
+  z-index: 1;
+  color: #d8d8d8;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}

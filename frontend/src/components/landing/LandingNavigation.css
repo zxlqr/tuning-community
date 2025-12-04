@@ -1,0 +1,81 @@
+/* Стили навигации для лендинга - оригинальный дизайн */
+.landing-page #menu {
+  padding: 15px;
+  transition: all 0.8s;
+  background-color: #000000;
+  border-color: rgba(231, 231, 231, 0);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+.landing-page #menu a.navbar-brand {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #747474;
+  text-transform: uppercase;
+}
+
+.landing-page #menu .navbar-nav > li > a {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  color: #747474;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 8px 2px;
+  border-radius: 0;
+  margin: 9px 20px 0;
+  position: relative;
+}
+
+.landing-page #menu .navbar-nav > li > a:after {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  content: "";
+  transition: width 0.2s;
+}
+
+.landing-page #menu .navbar-nav > li > a:hover:after {
+  width: 100%;
+}
+
+.landing-page #menu .btn-link {
+  background: none;
+  border: none;
+  color: #747474;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 8px 2px;
+  margin: 9px 20px 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.landing-page #menu .btn-link:after {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  content: "";
+  transition: width 0.2s;
+}
+
+.landing-page #menu .btn-link:hover:after {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .landing-page #menu .navbar-nav {
+    text-align: center;
+  }
+}
+

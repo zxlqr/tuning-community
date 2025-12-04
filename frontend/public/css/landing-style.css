@@ -1,0 +1,751 @@
+/* Основные стили для лендинг-страницы - скопированы из оригинального проекта Black-Box-Service */
+/* Применяются только к элементам внутри .landing-page */
+
+.landing-page body,
+.landing-page html {
+  font-family: "Open Sans", sans-serif;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  color: #d8d8d8;
+  font-weight: 400;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.landing-page h2,
+.landing-page h3,
+.landing-page h4 {
+  font-family: "Raleway", sans-serif;
+}
+
+.landing-page h2 {
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  font-weight: 800;
+  font-size: 36px;
+  color: #ffffff;
+}
+
+.landing-page h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #00cccc;
+}
+
+.landing-page h4 {
+  font-size: 18px;
+  color: #f5f5f5;
+  font-weight: 600;
+}
+
+.landing-page p {
+  font-size: 15px;
+}
+
+.landing-page a {
+  color: #ffffff;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.landing-page a:hover,
+.landing-page a:focus {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.landing-page ul,
+.landing-page ol {
+  list-style: none;
+  padding: 0;
+}
+
+/* Navigation для лендинга */
+.landing-page #menu {
+  padding: 15px;
+  transition: all 0.8s;
+  background-color: #000000;
+  border-color: rgba(231, 231, 231, 0);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.landing-page #menu a.navbar-brand {
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #747474;
+  text-transform: uppercase;
+}
+
+.landing-page #menu .navbar-nav > li > a {
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  color: #747474;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 8px 2px;
+  border-radius: 0;
+  margin: 9px 20px 0;
+  position: relative;
+}
+
+.landing-page #menu .navbar-nav > li > a:after {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  content: "";
+  transition: width 0.2s;
+}
+
+.landing-page #menu .navbar-nav > li > a:hover:after {
+  width: 100%;
+}
+
+.landing-page #menu .btn-link {
+  background: none;
+  border: none;
+  color: #747474;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 8px 2px;
+  margin: 9px 20px 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.landing-page #menu .btn-link:after {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  content: "";
+  transition: width 0.2s;
+}
+
+.landing-page #menu .btn-link:hover:after {
+  width: 100%;
+}
+
+.section-title {
+  margin-bottom: 70px;
+}
+
+.landing-page .section-title h2 {
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.landing-page .section-title h2::after {
+  position: absolute;
+  content: "";
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  height: 4px;
+  width: 60px;
+  bottom: 0;
+  margin-left: -30px;
+  left: 50%;
+}
+
+.landing-page .section-title p {
+  font-size: 18px;
+}
+
+.btn-custom {
+  font-family: "Raleway", sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #000000;
+  background-image: linear-gradient(to right, #383838 0%, #000000 100%);
+  padding: 14px 34px;
+  letter-spacing: 1px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 25px;
+  transition: all 0.5s linear;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-custom:hover,
+.btn-custom:focus {
+  color: #fff;
+  background-image: none;
+  background-color: #000000;
+  transform: scale(1.05);
+}
+
+/* Header секция */
+.landing-page #header {
+  position: relative;
+  margin-top: 60px;
+}
+
+.landing-page .intro {
+  display: table;
+  width: 100%;
+  padding: 0;
+  background: url(/img/intro-bg.jpg) center center no-repeat;
+  background-color: #000000;
+  background-size: cover;
+  min-height: 600px;
+}
+
+.landing-page .intro .overlay {
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.landing-page .intro .container {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-page .intro h1 {
+  font-family: "Raleway", sans-serif;
+  color: #ffffff;
+  font-size: 82px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.landing-page .intro p {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 30px;
+  margin: 0 auto;
+  margin-bottom: 60px;
+}
+
+.landing-page header .intro-text {
+  padding-top: 350px;
+  padding-bottom: 200px;
+  text-align: center;
+}
+
+/* Features секция */
+.landing-page #features {
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+  padding: 100px 0;
+}
+
+.landing-page #features i.fa {
+  font-size: 38px;
+  margin-bottom: 20px;
+  transition: all 0.5s;
+  color: #ffffff;
+  width: 100px;
+  height: 100px;
+  padding: 30px 0;
+  border-radius: 50%;
+  background: linear-gradient(to right, #0c0c0c 50%, #575757 100%);
+  box-shadow: 10px 10px 10px rgba(80, 80, 80, 0.05);
+}
+
+/* About секция */
+.landing-page #about {
+  padding: 100px 0;
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+}
+
+.landing-page #about h3 {
+  font-size: 22px;
+  margin: 0 0 20px;
+}
+
+.landing-page #about h2 {
+  position: relative;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.landing-page #about h2::after {
+  position: absolute;
+  content: "";
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  height: 4px;
+  width: 60px;
+  bottom: 0;
+  left: 0;
+}
+
+.landing-page #about .about-text li {
+  margin-bottom: 6px;
+  margin-left: 6px;
+  list-style: none;
+  padding: 0;
+}
+
+.landing-page #about .about-text li:before {
+  content: "\f00c";
+  font-family: "FontAwesome";
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 300;
+  padding-right: 8px;
+}
+
+.landing-page #about img {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin-top: 10px;
+  background: #ffffff;
+  border-right: 0;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.06);
+}
+
+.landing-page #about p {
+  line-height: 24px;
+  margin: 30px 0;
+}
+
+/* Services секция */
+.landing-page #services {
+  padding: 100px 0;
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+  color: #ffffff;
+}
+
+.landing-page #services .service-desc {
+  margin: 10px 10px 20px;
+}
+
+.landing-page #services h2 {
+  color: #fff;
+}
+
+.landing-page #services .section-title h2::after {
+  position: absolute;
+  content: "";
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  height: 4px;
+  width: 60px;
+  bottom: 0;
+  margin-left: -30px;
+  left: 50%;
+}
+
+.landing-page #services i.fa {
+  font-size: 42px;
+  width: 120px;
+  height: 120px;
+  padding: 40px 0;
+  background: linear-gradient(to right, #0c0c0c 50%, #575757 100%);
+  border-radius: 50%;
+  color: #fff;
+  box-shadow: 10px 10px 10px rgba(80, 80, 80, 0.05);
+}
+
+.landing-page #services h3 {
+  font-weight: 500;
+  padding: 5px 0;
+  color: #00cccc;
+}
+
+.landing-page #services p {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.landing-page #services .service-desc {
+  margin-bottom: 40px;
+}
+
+/* Portfolio секция */
+.landing-page #portfolio {
+  padding: 100px 0;
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+}
+
+.landing-page .portfolio-item {
+  margin: 1px -15px 0 -14px;
+  padding: 0;
+}
+
+.landing-page .portfolio-item .hover-bg {
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+}
+
+.landing-page .hover-bg .hover-text {
+  position: absolute;
+  text-align: center;
+  margin: 0 auto;
+  color: #fff;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  padding: 30% 0 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.landing-page .hover-bg .hover-text > h4 {
+  opacity: 0;
+  color: #fff;
+  -webkit-transform: translateY(100%);
+  transform: translateY(100%);
+  transition: all 0.3s;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.landing-page .hover-bg:hover .hover-text > h4 {
+  opacity: 1;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.landing-page .hover-bg:hover .hover-text {
+  opacity: 1;
+}
+
+/* Testimonials секция */
+.landing-page #testimonials {
+  padding: 100px 0;
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+}
+
+.landing-page #testimonials i {
+  color: #e6e6e6;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.landing-page .testimonial {
+  position: relative;
+  padding: 20px;
+}
+
+.landing-page .testimonial-image {
+  float: left;
+  margin-right: 15px;
+}
+
+.landing-page .testimonial-image,
+.landing-page .testimonial-image img {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.landing-page .testimonial-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-page .testimonial-content p {
+  margin-bottom: 0;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.landing-page .testimonial-meta {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #666;
+}
+
+/* Team секция */
+.landing-page #team {
+  padding: 100px 0;
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+}
+
+.landing-page #team h4 {
+  margin: 5px 0;
+}
+
+.landing-page #team .team-img {
+  width: 240px;
+}
+
+.landing-page #team .thumbnail {
+  background: transparent;
+  border: 0;
+}
+
+.landing-page #team .thumbnail .caption {
+  padding: 10px 0 0;
+  color: #b3b3b3;
+}
+
+/* Contact секция */
+.landing-page #contact {
+  padding: 100px 0 60px;
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.landing-page #contact .section-title {
+  margin-bottom: 40px;
+}
+
+.landing-page #contact .section-title p {
+  font-size: 16px;
+}
+
+.landing-page #contact h2 {
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.landing-page #contact .section-title h2::after {
+  position: absolute;
+  content: "";
+  background: linear-gradient(to right, #000000 0%, #ffffff 100%);
+  height: 4px;
+  width: 60px;
+  bottom: 0;
+  left: 30px;
+}
+
+.landing-page #contact h3 {
+  color: #fff;
+  margin-top: 80px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  font-weight: 400;
+}
+
+.landing-page #contact form {
+  padding-top: 20px;
+}
+
+.landing-page #contact .text-danger {
+  color: #000000;
+  text-align: left;
+}
+
+.landing-page #contact .btn-custom {
+  margin: 30px 0;
+  background: transparent;
+  border: 2px solid #fff;
+}
+
+.landing-page #contact .btn-custom:hover {
+  color: #000000;
+  background: #fff;
+}
+
+.landing-page label {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: "Open Sans", sans-serif;
+  float: left;
+}
+
+.landing-page #contact .form-control {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #444;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+
+.landing-page #contact .form-control:focus {
+  border-color: #999;
+  outline: 0;
+  -webkit-box-shadow: transparent;
+  box-shadow: transparent;
+}
+
+.landing-page .form-control::-webkit-input-placeholder {
+  color: #777;
+}
+
+.landing-page .form-control:-moz-placeholder {
+  color: #777;
+}
+
+.landing-page .form-control::-moz-placeholder {
+  color: #777;
+}
+
+.landing-page .form-control:-ms-input-placeholder {
+  color: #777;
+}
+
+.landing-page #contact .contact-item {
+  margin: 20px 0;
+}
+
+.landing-page #contact .contact-item span {
+  color: rgba(255, 255, 255, 1);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.landing-page #contact .contact-item i.fa {
+  margin-right: 10px;
+}
+
+.landing-page #contact .social {
+  border-top: 1px solid rgba(136, 136, 136, 0.15);
+  padding-top: 50px;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.landing-page #contact .social ul li {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+.landing-page #contact .social i.fa {
+  font-size: 22px;
+  width: 48px;
+  height: 48px;
+  padding: 12px 0;
+  border: 2px solid #fff;
+  color: #fff;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.landing-page #contact .social i.fa:hover {
+  color: #000000;
+  background: #fff;
+}
+
+/* Footer секция*/
+.landing-page #footer {
+  background: linear-gradient(to right, #000000 55%, #494949 100%);
+  padding: 30px 0;
+}
+
+.landing-page #footer p {
+  color: #bebebe;
+  font-size: 14px;
+}
+
+.landing-page #footer a {
+  color: #ffffff;
+}
+
+/* Контейнеры и сетка */
+.landing-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.landing-page .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.landing-page .col-xs-12,
+.landing-page .col-sm-6,
+.landing-page .col-md-3,
+.landing-page .col-md-4,
+.landing-page .col-md-6,
+.landing-page .col-md-8,
+.landing-page .col-lg-4 {
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.landing-page .col-xs-12 { width: 100%; }
+.landing-page .col-md-3 { width: 25%; }
+.landing-page .col-md-4 { width: 33.333333%; }
+.landing-page .col-md-6 { width: 50%; }
+.landing-page .col-md-8 { width: 66.666667%; }
+.landing-page .col-lg-4 { width: 33.333333%; }
+
+.landing-page .col-md-offset-1 { margin-left: 8.333333%; }
+.landing-page .col-md-offset-2 { margin-left: 16.666667%; }
+
+.landing-page .text-center {
+  text-align: center;
+}
+
+.landing-page .img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+  .landing-page .intro h1 {
+    font-size: 42px;
+  }
+  
+  .landing-page .intro p {
+    font-size: 18px;
+  }
+  
+  .landing-page header .intro-text {
+    padding-top: 200px;
+    padding-bottom: 100px;
+  }
+  
+  .landing-page #about img {
+    margin: 50px 0;
+  }
+  
+  .landing-page .col-md-3,
+  .landing-page .col-md-4,
+  .landing-page .col-md-6,
+  .landing-page .col-md-8,
+  .landing-page .col-lg-4 {
+    width: 100%;
+  }
+  
+  .landing-page .col-md-offset-1,
+  .landing-page .col-md-offset-2 {
+    margin-left: 0;
+  }
+  
+  .landing-page #menu .navbar-nav {
+    text-align: center;
+  }
+}
