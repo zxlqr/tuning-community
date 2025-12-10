@@ -4,6 +4,7 @@
   margin: 0 auto;
   position: relative;
   z-index: 1;
+  min-height: calc(100vh - 200px);
 }
 
 .cart-container {
@@ -22,36 +23,73 @@
 
 .cart-empty {
   text-align: center;
-  padding: 4rem 2rem;
-  background: rgba(0, 0, 0, 0.6);
+  padding: 5rem 2rem;
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 16px;
-  border: 2px solid rgba(231, 223, 204, 0.2);
+  border: 2px solid rgba(231, 223, 204, 0.3);
+  backdrop-filter: blur(10px);
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.cart-empty p {
+.cart-empty-icon {
+  color: rgba(231, 223, 204, 0.5);
+  margin-bottom: 0.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.cart-empty-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.cart-empty-message {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 400px;
 }
 
 .btn-continue-shopping {
   display: inline-block;
-  padding: 1rem 2.5rem;
-  background: transparent;
+  padding: 1.2rem 3rem;
+  background: #e7dfcc;
   border: 2px solid #e7dfcc;
-  color: #e7dfcc;
+  color: #202020;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 15px rgba(231, 223, 204, 0.3);
 }
 
 .btn-continue-shopping:hover {
-  background: #e7dfcc;
-  color: #202020;
-  transform: translateY(-2px);
+  background: transparent;
+  color: #e7dfcc;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(231, 223, 204, 0.5);
 }
 
 .cart-content {
@@ -314,6 +352,79 @@
 }
 
 .form-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Стили для select */
+.form-input[type="text"],
+.form-input[type="tel"],
+.form-input select,
+select.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(231, 223, 204, 0.3);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e7dfcc' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.form-input[type="text"]:focus,
+.form-input[type="tel"]:focus,
+.form-input select:focus,
+select.form-input:focus {
+  outline: none;
+  border-color: #e7dfcc;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 0 3px rgba(231, 223, 204, 0.1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e7dfcc' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  transform: translateY(-1px);
+}
+
+.form-input select:hover,
+select.form-input:hover {
+  border-color: rgba(231, 223, 204, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.form-input select option,
+select.form-input option {
+  background: #000000;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-input select option:hover,
+select.form-input option:hover {
+  background: rgba(231, 223, 204, 0.2);
+  color: #e7dfcc;
+}
+
+.form-input select option:checked,
+select.form-input option:checked {
+  background: rgba(231, 223, 204, 0.15);
+  color: #e7dfcc;
+  font-weight: 500;
+}
+
+.form-input[type="text"]::placeholder,
+.form-input[type="tel"]::placeholder {
   color: rgba(255, 255, 255, 0.4);
 }
 

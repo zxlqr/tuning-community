@@ -10,6 +10,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { forumAPI } from '../../api/forum'
 import { useAuth } from '../../contexts/AuthContext'
+import { useNotification } from '../../contexts/NotificationContext'
 import '../../styles/page-background.css'
 import './ForumTopic.css'
 
@@ -17,6 +18,7 @@ const ForumTopic = () => {
   const { id } = useParams()  // Получаем ID темы из URL
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { showNotification } = useNotification()
   const queryClient = useQueryClient()
   
   const [newPostContent, setNewPostContent] = useState('')
@@ -181,7 +183,7 @@ const ForumTopic = () => {
   // Обработчик лайка
   const handleToggleLike = (postId) => {
     if (!user) {
-      alert('Необходимо войти в систему для постановки лайка')
+      showNotification('Необходимо войти в систему для постановки лайка', 'warning')
       return
     }
     toggleLikeMutation.mutate(postId)

@@ -17,3 +17,68 @@ code {
     monospace;
 }
 
+/* Глобальные стили для select элементов */
+select {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(231, 223, 204, 0.3) !important;
+  border-radius: 8px;
+  color: #ffffff !important;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e7dfcc' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.75rem center !important;
+  background-size: 12px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #e7dfcc !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 0 0 3px rgba(231, 223, 204, 0.1) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e7dfcc' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.75rem center !important;
+  background-size: 12px !important;
+  transform: translateY(-1px);
+}
+
+select:hover {
+  border-color: rgba(231, 223, 204, 0.5) !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+select:active {
+  transform: translateY(0);
+}
+
+/* Стили для option элементов - используем фирменный цвет для выделения */
+select option {
+  background: #000000 !important;
+  color: #ffffff !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 1rem !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Выделение при наведении (работает не во всех браузерах) */
+select option:hover,
+select option:checked,
+select option:focus {
+  background: rgba(231, 223, 204, 0.2) !important;
+  color: #e7dfcc !important;
+}
+
+/* Для выбранного option */
+select option:checked {
+  background: rgba(231, 223, 204, 0.15) !important;
+  color: #e7dfcc !important;
+  font-weight: 500 !important;
+}
+

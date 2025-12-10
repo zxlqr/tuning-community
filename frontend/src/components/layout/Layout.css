@@ -21,7 +21,7 @@
   margin: 0;
 }
 
-/* Темный фон для страниц магазина, мероприятий, форума, профиля и машин */
+/* Темный фон для страниц магазина, мероприятий, форума, профиля, машин и авторизации */
 .main-content:has(.shop-brand),
 .main-content:has(.product-detail-page),
 .main-content:has(.events),
@@ -30,7 +30,8 @@
 .main-content:has(.forum-topic-page),
 .main-content:has(.create-topic-page),
 .main-content:has(.my-cars),
-.main-content:has(.profile) {
+.main-content:has(.profile),
+.main-content:has(.auth-container) {
   background: #000000;
   padding: 0;
   max-width: 100%;

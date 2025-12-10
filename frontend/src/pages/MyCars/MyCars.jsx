@@ -6,6 +6,7 @@
  */
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNotification } from '../../contexts/NotificationContext'
 import apiClient from '../../api/client'
 import CarGallery from '../../components/CarGallery/CarGallery'
 import CarEditModal from '../../components/CarEditModal/CarEditModal'
@@ -13,6 +14,7 @@ import './MyCars.css'
 
 const MyCars = () => {
   const queryClient = useQueryClient()
+  const { showNotification } = useNotification()
   const [showAddForm, setShowAddForm] = useState(false)
   const [formData, setFormData] = useState({
     brand: '',
@@ -89,7 +91,7 @@ const MyCars = () => {
       setPhotoPreview(null)
       setErrors({})
       setShowAddForm(false)
-      alert('Автомобиль успешно добавлен!')
+      showNotification('Автомобиль успешно добавлен!', 'success')
     },
     onError: (error) => {
       // Обрабатываем ошибки валидации

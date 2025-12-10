@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useState, useEffect } from 'react'
 import apiClient from '../../api/client'
 import { useCart } from '../../contexts/CartContext'
+import { useNotification } from '../../contexts/NotificationContext'
 import './ProductDetail.css'
 
 // Страница товара с подробной информацией
@@ -12,6 +13,7 @@ const ProductDetail = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const { addToCart, isInCart, getItemQuantity } = useCart()
+  const { showNotification } = useNotification()
 
   const { data: product, isLoading, error } = useQuery({
     queryKey: ['shop-product', productId],
@@ -223,9 +225,13 @@ const ProductDetail = () => {
                         </div>
                       </div>
                       <button
-                        onClick={() => {
-                          addToCart(product, quantity)
-                          alert('Товар добавлен в корзину!')
+                        onClick={async () => {
+                          try {
+                            await addToCart(product, quantity)
+                            showNotification('Товар добавлен в корзину!', 'success')
+                          } catch (error) {
+                            showNotification('Ошибка при добавлении товара в корзину', 'error')
+                          }
                         }}
                         className="btn-add-to-cart"
                       >

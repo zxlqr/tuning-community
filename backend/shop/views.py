@@ -2,12 +2,14 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import ProductCategory, Product, Order, OrderItem, Shop
+from .models import ProductCategory, Product, Order, OrderItem, Shop, Cart, CartItem
 from .serializers import (
     ProductCategorySerializer, ProductSerializer,
     OrderSerializer, OrderItemSerializer, CreateOrderSerializer,
-    ShopSerializer
+    ShopSerializer, CartSerializer, CartItemSerializer,
+    AddToCartSerializer, UpdateCartItemSerializer
 )
 
 
@@ -120,3 +122,103 @@ class ShopViewSet(viewsets.ModelViewSet):
             # Админы видят все магазины
             return Shop.objects.all()
         return Shop.objects.filter(is_active=True).order_by('order', 'name')
+
+
+# API для корзины пользователя
+class CartViewSet(viewsets.ModelViewSet):
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        # Каждый пользователь видит только свою корзину
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+        return Cart.objects.filter(user=self.request.user).prefetch_related('items__product', 'items__variant')
+    
+    def get_object(self):
+        # Получаем или создаем корзину для текущего пользователя
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+        return cart
+    
+    def list(self, request, *args, **kwargs):
+        # GET /api/shop/cart/ - получить корзину пользователя
+        cart = self.get_object()
+        serializer = self.get_serializer(cart)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['post'])
+    def add_item(self, request):
+        # POST /api/shop/cart/add_item/ - добавить товар в корзину
+        serializer = AddToCartSerializer(data=request.data)
+        if serializer.is_valid():
+            cart, created = Cart.objects.get_or_create(user=request.user)
+            product_id = serializer.validated_data['product_id']
+            variant_id = serializer.validated_data.get('variant_id')
+            quantity = serializer.validated_data.get('quantity', 1)
+            
+            # Проверяем, есть ли уже такой товар в корзине
+            cart_item, created = CartItem.objects.get_or_create(
+                cart=cart,
+                product_id=product_id,
+                variant_id=variant_id,
+                defaults={'quantity': quantity}
+            )
+            
+            if not created:
+                # Товар уже есть, увеличиваем количество
+                cart_item.quantity += quantity
+                cart_item.save()
+            
+            # Возвращаем обновленную корзину
+            cart_serializer = CartSerializer(cart, context={'request': request})
+            return Response(cart_serializer.data, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['delete'])
+    def clear(self, request):
+        # DELETE /api/shop/cart/clear/ - очистить корзину
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart.items.all().delete()
+        return Response({'message': 'Корзина очищена'}, status=status.HTTP_200_OK)
+
+
+# API для работы с отдельными товарами в корзине
+class CartItemViewSet(viewsets.ModelViewSet):
+    serializer_class = CartItemSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        # Получаем корзину пользователя
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+        return CartItem.objects.filter(cart=cart).select_related('product', 'variant')
+    
+    def destroy(self, request, *args, **kwargs):
+        # DELETE /api/shop/cart/items/{id}/ - удалить товар из корзины
+        instance = self.get_object()
+        # Проверяем, что товар принадлежит корзине текущего пользователя
+        if instance.cart.user != request.user:
+            return Response(
+                {'error': 'Нет доступа к этому товару'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def update(self, request, *args, **kwargs):
+        # PATCH /api/shop/cart/items/{id}/ - обновить количество товара
+        instance = self.get_object()
+        # Проверяем, что товар принадлежит корзине текущего пользователя
+        if instance.cart.user != request.user:
+            return Response(
+                {'error': 'Нет доступа к этому товару'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        serializer = UpdateCartItemSerializer(data=request.data)
+        if serializer.is_valid():
+            instance.quantity = serializer.validated_data['quantity']
+            instance.save()
+            cart_serializer = CartSerializer(instance.cart, context={'request': request})
+            return Response(cart_serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

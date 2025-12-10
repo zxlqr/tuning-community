@@ -154,6 +154,12 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-height: 2.5rem;
 }
 
 .profile-info p:last-child {
@@ -165,15 +171,6 @@
   color: #e7dfcc;
   margin-right: 0.5rem;
   font-weight: 600;
-}
-
-.profile-info p {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  min-height: 2.5rem;
 }
 
 .privacy-toggle {
@@ -724,6 +721,401 @@ input[type="file"]:focus {
 
   .car-title {
     font-size: 1.2rem;
+  }
+
+  /* Секция описания профиля */
+  .profile-bio-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-bio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .profile-bio-header strong {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-edit-small {
+    background: transparent;
+    color: #e7dfcc;
+    border: 2px solid #e7dfcc;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-edit-small:hover {
+    background: #e7dfcc;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 223, 204, 0.3);
+  }
+
+  .bio-edit-form {
+    margin-top: 1rem;
+  }
+
+  .bio-textarea {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+  }
+
+  .bio-textarea:focus {
+    outline: none;
+    border-color: #e7dfcc;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(231, 223, 204, 0.1);
+  }
+
+  .bio-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .btn-save {
+    background: #e7dfcc;
+    color: #000000;
+    border: none;
+    padding: 0.875rem 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: "Roboto", sans-serif;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(231, 223, 204, 0.2);
+  }
+
+  .btn-save:hover:not(:disabled) {
+    background: #d4c9b0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 223, 204, 0.4);
+  }
+
+  .btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-cancel {
+    background: transparent;
+    color: #d8d8d8;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 0.875rem 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  .profile-bio-text {
+    color: #d8d8d8;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    font-size: 1.05rem;
+    padding: 1rem 0;
+  }
+
+/* Секция социальных сетей */
+.profile-social-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-social-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.profile-social-header strong {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.social-edit-form {
+  margin-top: 1rem;
+}
+
+.social-input-group {
+  margin: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  min-height: 2.5rem;
+}
+
+.social-input-group:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.social-input-group strong {
+  color: #e7dfcc;
+  margin-right: 0.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.social-input-group strong .social-icon {
+  font-size: 1.1rem;
+  color: #e7dfcc;
+  flex-shrink: 0;
+}
+
+/* Стили для полей ввода соцсетей - максимальная специфичность */
+.profile-social-section .social-edit-form .social-input-group input,
+.profile-card .social-edit-form .social-input-group input,
+.social-edit-form .social-input-group input,
+.social-input-group input,
+.profile-social-section .social-edit-form input,
+.profile-social-section input {
+  flex: 1 !important;
+  min-width: 250px !important;
+  padding: 0.75rem 1rem !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(231, 223, 204, 0.3) !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  font-family: "Roboto", sans-serif !important;
+  box-sizing: border-box !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  line-height: 1.5 !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+.profile-social-section .social-edit-form .social-input-group input::placeholder,
+.profile-card .social-edit-form .social-input-group input::placeholder,
+.social-edit-form .social-input-group input::placeholder,
+.social-input-group input::placeholder,
+.profile-social-section .social-edit-form input::placeholder,
+.profile-social-section input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 1rem !important;
+  opacity: 1 !important;
+}
+
+.profile-social-section .social-edit-form .social-input-group input:hover,
+.profile-card .social-edit-form .social-input-group input:hover,
+.social-edit-form .social-input-group input:hover,
+.social-input-group input:hover,
+.profile-social-section .social-edit-form input:hover,
+.profile-social-section input:hover {
+  border-color: rgba(231, 223, 204, 0.5) !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+.profile-social-section .social-edit-form .social-input-group input:focus,
+.profile-card .social-edit-form .social-input-group input:focus,
+.social-edit-form .social-input-group input:focus,
+.social-input-group input:focus,
+.profile-social-section .social-edit-form input:focus,
+.profile-social-section input:focus {
+  outline: none !important;
+  border-color: #e7dfcc !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 0 0 3px rgba(231, 223, 204, 0.1) !important;
+  transform: translateY(-1px) !important;
+}
+
+  .social-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  /* Стили для ссылок соцсетей - максимальная специфичность */
+  .profile .profile-social-section .social-links a.social-link,
+  .profile .profile-card .social-links a.social-link,
+  .profile-social-section .social-links a.social-link,
+  .profile-card .social-links a.social-link,
+  .social-links a.social-link,
+  a.social-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    padding: 1rem 1.5rem !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .profile .profile-social-section .social-links a.social-link:hover,
+  .profile .profile-card .social-links a.social-link:hover,
+  .profile-social-section .social-links a.social-link:hover,
+  .profile-card .social-links a.social-link:hover,
+  .social-links a.social-link:hover,
+  a.social-link:hover {
+    background: rgba(231, 223, 204, 0.1) !important;
+    border-color: #e7dfcc !important;
+    transform: translateX(8px) !important;
+    box-shadow: 0 4px 12px rgba(231, 223, 204, 0.2) !important;
+    color: #ffffff !important;
+  }
+
+  .profile .profile-social-section .social-links a.social-link:visited,
+  .profile .profile-card .social-links a.social-link:visited,
+  .profile-social-section .social-links a.social-link:visited,
+  .profile-card .social-links a.social-link:visited,
+  .social-links a.social-link:visited,
+  a.social-link:visited {
+    color: #ffffff !important;
+  }
+
+  .profile .profile-social-section .social-links a.social-link:link,
+  .profile .profile-card .social-links a.social-link:link,
+  .profile-social-section .social-links a.social-link:link,
+  .profile-card .social-links a.social-link:link,
+  .social-links a.social-link:link,
+  a.social-link:link {
+    color: #ffffff !important;
+  }
+
+  .profile .profile-social-section .social-links a.social-link .social-icon,
+  .profile .profile-card .social-links a.social-link .social-icon,
+  .profile-social-section .social-links a.social-link .social-icon,
+  .profile-card .social-links a.social-link .social-icon,
+  .social-links a.social-link .social-icon,
+  a.social-link .social-icon {
+    font-size: 2rem !important;
+    width: 36px !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+    color: #e7dfcc !important;
+  }
+
+  .profile .profile-social-section .social-links a.social-link .social-username,
+  .profile .profile-card .social-links a.social-link .social-username,
+  .profile-social-section .social-links a.social-link .social-username,
+  .profile-card .social-links a.social-link .social-username,
+  .social-links a.social-link .social-username,
+  a.social-link .social-username,
+  .social-link .social-username {
+    font-weight: 500 !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 0.3px !important;
+    color: #ffffff !important;
+  }
+  
+  /* Переопределение для всех вложенных элементов */
+  .profile .profile-social-section .social-links a.social-link *,
+  .profile .profile-card .social-links a.social-link *,
+  .profile-social-section .social-links a.social-link *,
+  .profile-card .social-links a.social-link *,
+  .social-links a.social-link *,
+  a.social-link * {
+    color: inherit !important;
+  }
+  
+  .profile .profile-social-section .social-links a.social-link span.social-username,
+  .profile .profile-card .social-links a.social-link span.social-username,
+  .profile-social-section .social-links a.social-link span.social-username,
+  .profile-card .social-links a.social-link span.social-username,
+  .social-links a.social-link span.social-username,
+  a.social-link span.social-username {
+    color: #ffffff !important;
+    font-size: 1.5rem !important;
+  }
+  
+  /* Агрессивное переопределение для всех состояний */
+  .profile a.social-link:link,
+  .profile a.social-link:visited,
+  .profile a.social-link:hover,
+  .profile a.social-link:active {
+    color: #ffffff !important;
+  }
+  
+  .profile a.social-link:link *,
+  .profile a.social-link:visited *,
+  .profile a.social-link:hover *,
+  .profile a.social-link:active * {
+    color: inherit !important;
+  }
+  
+  .profile a.social-link span.social-username:link,
+  .profile a.social-link span.social-username:visited,
+  .profile a.social-link span.social-username:hover,
+  .profile a.social-link span.social-username:active {
+    color: #ffffff !important;
+    font-size: 1.5rem !important;
+  }
+
+  .no-social-links {
+    color: #888888;
+    font-style: italic;
+    margin: 1rem 0;
+    font-size: 1.05rem;
+    padding: 1rem 0;
   }
 
   .car-detail-item {

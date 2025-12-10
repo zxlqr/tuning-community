@@ -81,8 +81,13 @@ class Event(models.Model):
     
     @property
     def participants_count(self):
-        # Считает сколько человек зарегистрировалось
+        # Считает сколько человек зарегистрировалось (лайков)
         return self.registrations.filter(is_attending=True).count()
+    
+    @property
+    def likes_count(self):
+        # Алиас для participants_count для совместимости
+        return self.participants_count
     
     @property
     def is_registration_open(self):

@@ -29,14 +29,14 @@ const Header = () => {
         </Link>
         {/* Навигационное меню */}
         <nav className="nav">
-          <Link to="/shop" className={location.pathname === '/shop' ? 'active' : ''}>
-            Магазин
+          <Link to="/forum" className={location.pathname === '/forum' ? 'active' : ''}>
+            Форум
           </Link>
           <Link to="/events" className={location.pathname === '/events' ? 'active' : ''}>
             Мероприятия
           </Link>
-          <Link to="/forum" className={location.pathname === '/forum' ? 'active' : ''}>
-            Форум
+          <Link to="/shop" className={location.pathname === '/shop' ? 'active' : ''}>
+            Магазин
           </Link>
           {/* Показываем разные пункты меню в зависимости от авторизации */}
           {isAuthenticated ? (

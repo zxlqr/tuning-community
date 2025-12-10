@@ -65,11 +65,11 @@ const CarGallery = ({ car, onClose }) => {
     const file = e.target.files[0]
     if (file) {
       if (!file.type.startsWith('image/')) {
-        alert('Выберите изображение')
+        // Уведомление будет показано через родительский компонент
         return
       }
       if (file.size > 10 * 1024 * 1024) {
-        alert('Размер файла не должен превышать 10 МБ')
+        // Уведомление будет показано через родительский компонент
         return
       }
       setNewPhoto(file)

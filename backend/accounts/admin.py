@@ -6,13 +6,16 @@ from .models import User, Car, CarPhoto, Badge, UserBadge
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     list_display = ['username', 'email', 'phone', 'created_at']
-    list_filter = ['is_staff', 'is_superuser', 'is_phone_private', 'is_name_private', 'is_email_private']
+    list_filter = ['is_staff', 'is_superuser', 'is_phone_private', 'is_name_private', 'is_first_name_private', 'is_last_name_private', 'is_email_private']
     fieldsets = BaseUserAdmin.fieldsets + (
         ('Дополнительная информация', {
-            'fields': ('phone', 'avatar')
+            'fields': ('phone', 'avatar', 'bio')
+        }),
+        ('Социальные сети', {
+            'fields': ('instagram', 'telegram', 'youtube', 'vk')
         }),
         ('Настройки приватности', {
-            'fields': ('is_phone_private', 'is_name_private', 'is_email_private')
+            'fields': ('is_phone_private', 'is_name_private', 'is_first_name_private', 'is_last_name_private', 'is_email_private')
         }),
     )
     add_fieldsets = BaseUserAdmin.add_fieldsets + (

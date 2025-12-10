@@ -3,8 +3,10 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useCart } from '../../contexts/CartContext'
 import { useAuth } from '../../contexts/AuthContext'
+import { useNotification } from '../../contexts/NotificationContext'
 import apiClient from '../../api/client'
 import VideoBackground from '../../components/VideoBackground/VideoBackground'
+import CustomSelect from '../../components/CustomSelect/CustomSelect'
 import '../../styles/page-background.css'
 import './Cart.css'
 
@@ -12,6 +14,7 @@ import './Cart.css'
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart, getTotalPrice } = useCart()
   const { isAuthenticated, user } = useAuth()
+  const { showNotification } = useNotification()
   const [deliveryMethod, setDeliveryMethod] = useState('pickup')
   const [deliveryAddress, setDeliveryAddress] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -33,18 +36,18 @@ const Cart = () => {
     },
     onError: (error) => {
       console.error('Error creating order:', error)
-      alert('Ошибка при оформлении заказа. Попробуйте еще раз.')
+      showNotification('Ошибка при оформлении заказа. Попробуйте еще раз.', 'error')
     }
   })
 
   const handleCheckout = () => {
     if (!isAuthenticated) {
-      alert('Для оформления заказа необходимо войти в систему')
+      showNotification('Для оформления заказа необходимо войти в систему', 'warning')
       return
     }
 
     if (cartItems.length === 0) {
-      alert('Корзина пуста')
+      showNotification('Корзина пуста', 'warning')
       return
     }
 
@@ -54,19 +57,19 @@ const Cart = () => {
   const handleSubmitOrder = () => {
     // Валидация обязательных полей
     if (!firstName.trim()) {
-      alert('Пожалуйста, введите имя')
+      showNotification('Пожалуйста, введите имя', 'warning')
       return
     }
     if (!lastName.trim()) {
-      alert('Пожалуйста, введите фамилию')
+      showNotification('Пожалуйста, введите фамилию', 'warning')
       return
     }
     if (!phone.trim()) {
-      alert('Пожалуйста, введите номер телефона')
+      showNotification('Пожалуйста, введите номер телефона', 'warning')
       return
     }
     if (deliveryMethod === 'delivery' && !deliveryAddress.trim()) {
-      alert('Пожалуйста, введите адрес доставки')
+      showNotification('Пожалуйста, введите адрес доставки', 'warning')
       return
     }
 
@@ -111,9 +114,20 @@ const Cart = () => {
 
         {cartItems.length === 0 ? (
           <div className="cart-empty">
-            <p>Ваша корзина пуста</p>
+            <div className="cart-empty-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 4V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V4H20C20.5523 4 21 4.44772 21 5C21 5.55228 20.5523 6 20 6H19V19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19V6H4C3.44772 6 3 5.55228 3 5C3 4.44772 3.44772 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z" fill="currentColor"/>
+                <path d="M9 9V17H11V9H9Z" fill="currentColor"/>
+                <path d="M13 9V17H15V9H13Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <h2 className="cart-empty-title">Ваша корзина пуста</h2>
+            <p className="cart-empty-message">
+              Вы еще не добавили товары в корзину.<br />
+              Перейдите в магазин, чтобы начать покупки.
+            </p>
             <Link to="/shop" className="btn-continue-shopping">
-              Продолжить покупки
+              Перейти в магазин
             </Link>
           </div>
         ) : (
@@ -146,14 +160,14 @@ const Cart = () => {
                       <div className="cart-item-controls">
                         <div className="quantity-controls">
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.variant?.id)}
+                            onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.variant?.id, item.id)}
                             className="quantity-btn"
                           >
                             −
                           </button>
                           <span className="quantity-value">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.variant?.id)}
+                            onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.variant?.id, item.id)}
                             className="quantity-btn"
                           >
                             +
@@ -161,7 +175,7 @@ const Cart = () => {
                         </div>
                         <div className="cart-item-total">{itemTotal} ₽</div>
                         <button
-                          onClick={() => removeFromCart(item.product.id, item.variant?.id)}
+                          onClick={() => removeFromCart(item.product.id, item.variant?.id, item.id)}
                           className="remove-btn"
                           title="Удалить"
                         >
@@ -242,14 +256,15 @@ const Cart = () => {
 
                       <div className="form-group">
                         <label>Способ получения:</label>
-                        <select
+                        <CustomSelect
                           value={deliveryMethod}
-                          onChange={(e) => setDeliveryMethod(e.target.value)}
+                          onChange={setDeliveryMethod}
+                          options={[
+                            { value: 'pickup', label: 'Самовывоз' },
+                            { value: 'delivery', label: 'Доставка' }
+                          ]}
                           className="form-input"
-                        >
-                          <option value="pickup">Самовывоз</option>
-                          <option value="delivery">Доставка</option>
-                        </select>
+                        />
                       </div>
 
                       {deliveryMethod === 'delivery' && (

@@ -18,6 +18,7 @@ import ForumTopic from './pages/Forum/ForumTopic'
 import CreateTopic from './pages/Forum/CreateTopic'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
+import { NotificationProvider } from './contexts/NotificationContext'
 
 // Создаем клиент React Query для управления состоянием сервера
 const queryClient = new QueryClient()
@@ -28,8 +29,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
-          <BrowserRouter>
-            <Layout>
+          <NotificationProvider>
+            <BrowserRouter>
+              <Layout>
               <Routes>
               {/* Лендинг-страница - главная страница сайта */}
               <Route path="/" element={<Landing />} />
@@ -55,6 +57,7 @@ function App() {
               </Routes>
             </Layout>
           </BrowserRouter>
+          </NotificationProvider>
         </CartProvider>
       </AuthProvider>
     </QueryClientProvider>

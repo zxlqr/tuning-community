@@ -72,16 +72,34 @@ class CarSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     cars = CarSerializer(many=True, read_only=True)
     avatar_url = serializers.SerializerMethodField()
+    instagram_url = serializers.SerializerMethodField()
+    instagram_username = serializers.SerializerMethodField()
+    telegram_url = serializers.SerializerMethodField()
+    telegram_username = serializers.SerializerMethodField()
+    youtube_url = serializers.SerializerMethodField()
+    youtube_username = serializers.SerializerMethodField()
+    vk_url = serializers.SerializerMethodField()
+    vk_username = serializers.SerializerMethodField()
     
     class Meta:
         model = User
         fields = [
             'id', 'username', 'email', 'first_name', 'last_name',
             'phone', 'avatar', 'avatar_url', 'is_phone_private', 
-            'is_name_private', 'is_email_private', 'is_staff', 'is_superuser',
+            'is_name_private', 'is_first_name_private', 'is_last_name_private',
+            'is_email_private', 'is_staff', 'is_superuser',
+            'bio', 'instagram', 'telegram', 'youtube', 'vk',
+            'instagram_url', 'instagram_username',
+            'telegram_url', 'telegram_username',
+            'youtube_url', 'youtube_username',
+            'vk_url', 'vk_username',
             'cars', 'created_at'
         ]
-        read_only_fields = ['id', 'created_at', 'avatar_url', 'is_staff', 'is_superuser']
+        read_only_fields = ['id', 'created_at', 'avatar_url', 'is_staff', 'is_superuser',
+                           'instagram_url', 'instagram_username',
+                           'telegram_url', 'telegram_username',
+                           'youtube_url', 'youtube_username',
+                           'vk_url', 'vk_username']
     
     def get_avatar_url(self, obj):
         # Возвращает полную ссылку на аватар
@@ -91,6 +109,30 @@ class UserSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.avatar.url)
             return obj.avatar.url
         return None
+    
+    def get_instagram_url(self, obj):
+        return obj.get_instagram_url()
+    
+    def get_instagram_username(self, obj):
+        return obj.get_instagram_username()
+    
+    def get_telegram_url(self, obj):
+        return obj.get_telegram_url()
+    
+    def get_telegram_username(self, obj):
+        return obj.get_telegram_username()
+    
+    def get_youtube_url(self, obj):
+        return obj.get_youtube_url()
+    
+    def get_youtube_username(self, obj):
+        return obj.get_youtube_username()
+    
+    def get_vk_url(self, obj):
+        return obj.get_vk_url()
+    
+    def get_vk_username(self, obj):
+        return obj.get_vk_username()
     
     def _is_own_profile(self, obj):
         # Проверяет, является ли текущий пользователь владельцем профиля
@@ -118,6 +160,10 @@ class UserSerializer(serializers.ModelSerializer):
             if instance.is_name_private:
                 data['first_name'] = None
                 data['last_name'] = None
+            elif instance.is_first_name_private:
+                data['first_name'] = None
+            elif instance.is_last_name_private:
+                data['last_name'] = None
             if instance.is_phone_private:
                 data['phone'] = None
             return data
@@ -126,10 +172,17 @@ class UserSerializer(serializers.ModelSerializer):
         if instance.is_email_private and not is_own:
             data['email'] = None
         
-        # Скрываем имя и фамилию, если включена приватность и это не свой профиль
+        # Скрываем имя и фамилию по настройкам приватности
         if instance.is_name_private and not is_own:
+            # Если включено общее скрытие имени и фамилии, скрываем оба
             data['first_name'] = None
             data['last_name'] = None
+        else:
+            # Иначе скрываем отдельно имя или фамилию
+            if instance.is_first_name_private and not is_own:
+                data['first_name'] = None
+            if instance.is_last_name_private and not is_own:
+                data['last_name'] = None
         
         # Скрываем телефон, если включена приватность и это не свой профиль
         if instance.is_phone_private and not is_own:

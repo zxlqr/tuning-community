@@ -439,3 +439,103 @@ class Shop(models.Model):
         if self.logo:
             return self.logo.url
         return None
+
+
+# Корзина пользователя - хранится на сервере
+class Cart(models.Model):
+    user = models.OneToOneField(
+        'accounts.User',
+        on_delete=models.CASCADE,
+        related_name='cart',
+        verbose_name='Пользователь'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата обновления'
+    )
+    
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+        ordering = ['-updated_at']
+    
+    def __str__(self):
+        return f"Корзина {self.user.username}"
+    
+    @property
+    def total_items(self):
+        # Считает общее количество товаров в корзине
+        from django.db.models import Sum
+        return self.items.aggregate(total=Sum('quantity'))['total'] or 0
+    
+    @property
+    def total_price(self):
+        # Считает общую стоимость корзины
+        total = 0
+        for item in self.items.all():
+            item_price = item.variant.final_price if item.variant else item.product.price
+            total += item_price * item.quantity
+        return total
+
+
+# Товары в корзине
+class CartItem(models.Model):
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        related_name='items',
+        verbose_name='Корзина'
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='cart_items',
+        verbose_name='Товар'
+    )
+    variant = models.ForeignKey(
+        ProductVariant,
+        on_delete=models.CASCADE,
+        related_name='cart_items',
+        blank=True,
+        null=True,
+        verbose_name='Вариант товара'
+    )
+    quantity = models.IntegerField(
+        validators=[MinValueValidator(1)],
+        default=1,
+        verbose_name='Количество'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата добавления'
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата обновления'
+    )
+    
+    class Meta:
+        verbose_name = 'Товар в корзине'
+        verbose_name_plural = 'Товары в корзине'
+        unique_together = ['cart', 'product', 'variant']
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        variant_str = f" ({self.variant})" if self.variant else ""
+        return f"{self.product.name}{variant_str} x{self.quantity}"
+    
+    @property
+    def item_price(self):
+        # Возвращает цену товара с учетом варианта
+        if self.variant:
+            return self.variant.final_price
+        return self.product.price
+    
+    @property
+    def total_price(self):
+        # Возвращает общую стоимость этого товара (цена * количество)
+        return self.item_price * self.quantity

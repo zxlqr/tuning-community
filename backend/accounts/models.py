@@ -32,6 +32,16 @@ class User(AbstractUser):
         verbose_name='Скрыть имя и фамилию',
         help_text='Если включено, имя и фамилия не будут видны другим пользователям'
     )
+    is_first_name_private = models.BooleanField(
+        default=False,
+        verbose_name='Скрыть имя',
+        help_text='Если включено, имя не будет видно другим пользователям'
+    )
+    is_last_name_private = models.BooleanField(
+        default=False,
+        verbose_name='Скрыть фамилию',
+        help_text='Если включено, фамилия не будет видна другим пользователям'
+    )
     is_email_private = models.BooleanField(
         default=False,
         verbose_name='Скрыть email',
@@ -45,6 +55,143 @@ class User(AbstractUser):
         auto_now=True,
         verbose_name='Дата обновления'
     )
+    
+    # Описание профиля
+    bio = models.TextField(
+        max_length=500,
+        blank=True,
+        null=True,
+        verbose_name='Описание',
+        help_text='Краткое описание о себе'
+    )
+    
+    # Социальные сети
+    instagram = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        verbose_name='Instagram',
+        help_text='Ссылка или username Instagram'
+    )
+    telegram = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        verbose_name='Telegram',
+        help_text='Ссылка или username Telegram'
+    )
+    youtube = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        verbose_name='YouTube',
+        help_text='Ссылка или username YouTube'
+    )
+    vk = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        verbose_name='VK',
+        help_text='Ссылка или username VK'
+    )
+    
+    def get_instagram_url(self):
+        """Возвращает полную ссылку на Instagram"""
+        if not self.instagram:
+            return None
+        if self.instagram.startswith('http'):
+            return self.instagram
+        # Убираем @ если есть
+        username = self.instagram.lstrip('@')
+        return f'https://www.instagram.com/{username}/'
+    
+    def get_instagram_username(self):
+        """Возвращает username Instagram без @"""
+        if not self.instagram:
+            return None
+        # Если это ссылка, извлекаем username
+        if 'instagram.com' in self.instagram:
+            parts = self.instagram.rstrip('/').split('/')
+            username = parts[-1] if parts else None
+            return username.lstrip('@') if username else None
+        return self.instagram.lstrip('@')
+    
+    def get_telegram_url(self):
+        """Возвращает полную ссылку на Telegram"""
+        if not self.telegram:
+            return None
+        if self.telegram.startswith('http'):
+            return self.telegram
+        # Убираем @ если есть
+        username = self.telegram.lstrip('@')
+        return f'https://t.me/{username}'
+    
+    def get_telegram_username(self):
+        """Возвращает username Telegram без @"""
+        if not self.telegram:
+            return None
+        # Если это ссылка, извлекаем username
+        if 't.me' in self.telegram or 'telegram.me' in self.telegram:
+            parts = self.telegram.rstrip('/').split('/')
+            username = parts[-1] if parts else None
+            return username.lstrip('@') if username else None
+        return self.telegram.lstrip('@')
+    
+    def get_youtube_url(self):
+        """Возвращает полную ссылку на YouTube"""
+        if not self.youtube:
+            return None
+        if self.youtube.startswith('http'):
+            return self.youtube
+        # Может быть канал или пользователь
+        username = self.youtube.lstrip('@')
+        # Пробуем как канал
+        return f'https://www.youtube.com/@{username}'
+    
+    def get_youtube_username(self):
+        """Возвращает username YouTube без @"""
+        if not self.youtube:
+            return None
+        # Если это ссылка, извлекаем username
+        if 'youtube.com' in self.youtube or 'youtu.be' in self.youtube:
+            # Может быть /channel/, /user/, /c/, /@
+            if '/@' in self.youtube:
+                parts = self.youtube.split('/@')
+                username = parts[-1].split('/')[0] if parts else None
+                return username if username else None
+            elif '/channel/' in self.youtube or '/user/' in self.youtube or '/c/' in self.youtube:
+                parts = self.youtube.rstrip('/').split('/')
+                username = parts[-1] if parts else None
+                return username if username else None
+            return None
+        return self.youtube.lstrip('@')
+    
+    def get_vk_url(self):
+        """Возвращает полную ссылку на VK"""
+        if not self.vk:
+            return None
+        if self.vk.startswith('http'):
+            return self.vk
+        # Убираем @ если есть
+        username = self.vk.lstrip('@')
+        # Может быть id или username
+        if username.isdigit():
+            return f'https://vk.com/id{username}'
+        return f'https://vk.com/{username}'
+    
+    def get_vk_username(self):
+        """Возвращает username VK без @"""
+        if not self.vk:
+            return None
+        # Если это ссылка, извлекаем username
+        if 'vk.com' in self.vk:
+            parts = self.vk.rstrip('/').split('/')
+            username = parts[-1] if parts else None
+            # Убираем id если есть
+            if username and username.startswith('id'):
+                return username
+            return username if username else None
+        return self.vk.lstrip('@')
     
     class Meta:
         verbose_name = 'Пользователь'

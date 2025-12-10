@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
 from django.urls import reverse
-from .models import ProductCategory, Product, ProductVariant, Order, OrderItem, Shop
+from .models import ProductCategory, Product, ProductVariant, Order, OrderItem, Shop, Cart, CartItem
 
 
 @admin.register(ProductCategory)
@@ -443,3 +443,68 @@ class ShopAdmin(admin.ModelAdmin):
             )
         return 'Логотип не загружен'
     logo_preview.short_description = 'Превью логотипа'
+
+
+# Админка для корзины
+class CartItemInline(admin.TabularInline):
+    model = CartItem
+    extra = 0
+    fields = ['product', 'variant', 'quantity', 'item_price', 'total_price']
+    readonly_fields = ['item_price', 'total_price']
+    verbose_name = 'Товар в корзине'
+    verbose_name_plural = 'Товары в корзине'
+
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ['user', 'total_items_display', 'total_price_display', 'updated_at']
+    list_filter = ['created_at', 'updated_at']
+    search_fields = ['user__username', 'user__email']
+    readonly_fields = ['created_at', 'updated_at', 'total_items_display', 'total_price_display']
+    inlines = [CartItemInline]
+    date_hierarchy = 'updated_at'
+    
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('user', 'total_items_display', 'total_price_display')
+        }),
+        ('Системная информация', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def total_items_display(self, obj):
+        return f'{obj.total_items} товар(ов)'
+    total_items_display.short_description = 'Всего товаров'
+    
+    def total_price_display(self, obj):
+        return f'{obj.total_price} ₽'
+    total_price_display.short_description = 'Общая стоимость'
+
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ['cart', 'product', 'variant_display', 'quantity', 'item_price_display', 'total_price_display']
+    list_filter = ['created_at', 'cart__user']
+    search_fields = ['product__name', 'cart__user__username']
+    readonly_fields = ['item_price_display', 'total_price_display', 'created_at', 'updated_at']
+    
+    def variant_display(self, obj):
+        if obj.variant:
+            parts = []
+            if obj.variant.size:
+                parts.append(f'Размер: {obj.variant.size}')
+            if obj.variant.color:
+                parts.append(f'Цвет: {obj.variant.color}')
+            return ' • '.join(parts) if parts else '-'
+        return '-'
+    variant_display.short_description = 'Вариант'
+    
+    def item_price_display(self, obj):
+        return f'{obj.item_price} ₽'
+    item_price_display.short_description = 'Цена за единицу'
+    
+    def total_price_display(self, obj):
+        return f'{obj.total_price} ₽'
+    total_price_display.short_description = 'Общая стоимость'

@@ -7,7 +7,7 @@ from django.utils import timezone
 from .models import Event, EventRegistration
 from .serializers import (
     EventSerializer, EventRegistrationSerializer,
-    CreateEventSerializer, RegisterEventSerializer
+    CreateEventSerializer
 )
 
 
@@ -26,9 +26,22 @@ class EventViewSet(viewsets.ModelViewSet):
         queryset = Event.objects.filter(is_active=True)
         # Показываем прошедшие мероприятия только если явно запрошено
         show_past = self.request.query_params.get('show_past', 'false').lower() == 'true'
-        if not show_past:
-            queryset = queryset.filter(event_date__gte=timezone.now())
+        now = timezone.now()
+        if show_past:
+            # Показываем только прошедшие мероприятия
+            queryset = queryset.filter(event_date__lt=now)
+        else:
+            # Показываем только предстоящие мероприятия
+            queryset = queryset.filter(event_date__gte=now)
         return queryset.select_related('created_by').prefetch_related('registrations')
+    
+    def get_serializer_context(self):
+        """
+        Передаем request в контекст сериализатора для построения полных URL
+        """
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
     
     def get_serializer_class(self):
         if self.action == 'create':
@@ -46,63 +59,83 @@ class EventViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
     
-    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
-    def register(self, request, pk=None):
+    @action(detail=True, methods=['post', 'delete'], permission_classes=[IsAuthenticated])
+    def like(self, request, pk=None):
         """
-        Регистрация на мероприятие
+        Поставить/убрать лайк на мероприятие
+        POST - поставить лайк, DELETE - убрать лайк
         """
         event = self.get_object()
+        user = request.user
         
-        # Проверяем, открыта ли регистрация
-        if not event.is_registration_open:
-            return Response(
-                {'error': 'Регистрация на это мероприятие закрыта'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        # Проверяем, есть ли уже лайк от этого пользователя
+        existing_like = EventRegistration.objects.filter(event=event, user=user).first()
         
-        # Проверяем лимит участников
-        if event.max_participants and event.participants_count >= event.max_participants:
+        if request.method == 'DELETE':
+            # Убираем лайк
+            if existing_like:
+                existing_like.delete()
+                return Response(
+                    {'message': 'Лайк убран', 'is_liked': False},
+                    status=status.HTTP_200_OK
+                )
             return Response(
-                {'error': 'Достигнут лимит участников'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        # Проверяем, не зарегистрирован ли уже пользователь
-        if EventRegistration.objects.filter(event=event, user=request.user).exists():
-            return Response(
-                {'error': 'Вы уже зарегистрированы на это мероприятие'},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': 'Лайк не найден'},
+                status=status.HTTP_404_NOT_FOUND
             )
         
-        serializer = RegisterEventSerializer(data=request.data)
-        if serializer.is_valid():
-            registration = EventRegistration.objects.create(
-                event=event,
-                user=request.user,
-                is_attending=serializer.validated_data.get('is_attending', True),
-                is_anonymous=serializer.validated_data.get('is_anonymous', False),
-                car_id=serializer.validated_data.get('car_id'),
-                notes=serializer.validated_data.get('notes', '')
-            )
+        # POST - ставим лайк
+        is_anonymous = request.data.get('is_anonymous', False)
+        
+        if existing_like:
+            # Обновляем существующий лайк (например, меняем анонимность)
+            existing_like.is_anonymous = is_anonymous
+            existing_like.save()
             return Response(
-                EventRegistrationSerializer(registration).data,
-                status=status.HTTP_201_CREATED
+                EventRegistrationSerializer(existing_like, context={'request': request}).data,
+                status=status.HTTP_200_OK
             )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Создаем новый лайк
+        like = EventRegistration.objects.create(
+            event=event,
+            user=user,
+            is_attending=True,  # Всегда True для лайков
+            is_anonymous=is_anonymous
+        )
+        return Response(
+            EventRegistrationSerializer(like, context={'request': request}).data,
+            status=status.HTTP_201_CREATED
+        )
     
     @action(detail=True, methods=['get'])
-    def participants(self, request, pk=None):
+    def likes(self, request, pk=None):
         """
-        Получить список участников мероприятия
-        Анонимные регистрации показываются как "Аноним" для всех
+        Получить список лайков мероприятия
+        Анонимные лайки показываются как "Аноним"
         """
         event = self.get_object()
-        registrations = event.registrations.filter(is_attending=True)
+        likes = event.registrations.filter(is_attending=True).order_by('-created_at')
         
-        # Показываем все регистрации, включая анонимные
-        # В сериализаторе анонимные будут отображаться как "Аноним"
-        serializer = EventRegistrationSerializer(registrations, many=True, context={'request': request})
-        return Response(serializer.data)
+        serializer = EventRegistrationSerializer(likes, many=True, context={'request': request})
+        return Response({
+            'count': likes.count(),
+            'results': serializer.data
+        })
+    
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def is_liked(self, request, pk=None):
+        """
+        Проверить, поставил ли текущий пользователь лайк
+        """
+        event = self.get_object()
+        is_liked = EventRegistration.objects.filter(event=event, user=request.user).exists()
+        like = EventRegistration.objects.filter(event=event, user=request.user).first()
+        
+        return Response({
+            'is_liked': is_liked,
+            'is_anonymous': like.is_anonymous if like else False
+        })
 
 
 class EventRegistrationViewSet(viewsets.ModelViewSet):
