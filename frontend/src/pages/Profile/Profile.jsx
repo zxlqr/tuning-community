@@ -516,227 +516,442 @@ const Profile = () => {
             )}
           </p>
           
-          {/* Описание профиля */}
-          <div className="profile-bio-section">
-            <div className="profile-bio-header">
-              <strong>О себе:</strong>
-              {isOwnProfile && !isEditingBio && (
-                <button 
-                  onClick={() => setIsEditingBio(true)}
-                  className="btn-edit-small"
-                >
-                  {currentUser?.bio ? 'Изменить' : 'Добавить'}
-                </button>
-              )}
-            </div>
-            {isOwnProfile && isEditingBio ? (
-              <div className="bio-edit-form">
-                <textarea
-                  value={bioText}
-                  onChange={(e) => handleBioChange(e.target.value)}
-                  placeholder="Расскажите о себе..."
-                  maxLength={500}
-                  rows={4}
-                  className="bio-textarea"
-                />
-                <div className="bio-actions">
-                  <button 
-                    onClick={handleSaveBio}
-                    className="btn-save"
-                    disabled={updateBioAndSocialMutation.isPending || !hasBioChanges}
-                  >
-                    {updateBioAndSocialMutation.isPending ? 'Сохранение...' : 'Сохранить'}
-                  </button>
-                  <button 
-                    onClick={handleCancelBio}
-                    className="btn-cancel"
-                    disabled={updateBioAndSocialMutation.isPending}
-                  >
-                    Отмена
-                  </button>
+          {/* Блок "О себе" и "Социальные сети" */}
+          <div className="profile-about-section">
+            {/* Описание профиля */}
+            <div className="profile-bio-section">
+              <div className="profile-bio-header">
+                <div className="section-title">
+                  <i className="fa fa-user-circle" aria-hidden="true"></i>
+                  <strong>О себе</strong>
                 </div>
+                {isOwnProfile && !isEditingBio && (
+                  <button 
+                    onClick={() => setIsEditingBio(true)}
+                    className="btn-edit-social-main"
+                  >
+                    <i className="fa fa-edit" aria-hidden="true"></i>
+                    {currentUser?.bio ? 'Изменить' : 'Добавить'}
+                  </button>
+                )}
               </div>
-            ) : (
-              <p className="profile-bio-text">
-                {currentUser?.bio || (isOwnProfile ? 'Добавьте описание о себе' : 'Нет описания')}
-              </p>
-            )}
-          </div>
-
-          {/* Социальные сети */}
-          <div className="profile-social-section">
-            <div className="profile-social-header">
-              <strong>Социальные сети:</strong>
-              {isOwnProfile && !isEditingSocial && (
-                <button 
-                  onClick={() => setIsEditingSocial(true)}
-                  className="btn-edit-small"
-                >
-                  Редактировать
-                </button>
-              )}
-            </div>
-            {isOwnProfile && isEditingSocial ? (
-              <div className="social-edit-form">
-                <div className="social-input-group">
-                  <strong>
-                    <i className="fa fa-instagram social-icon" aria-hidden="true"></i>
-                    Instagram:
-                  </strong>
-                  <input
-                    type="text"
-                    value={socialLinks.instagram}
-                    onChange={(e) => handleSocialChange('instagram', e.target.value)}
-                    placeholder="@username или ссылка"
+              {isOwnProfile && isEditingBio ? (
+                <div className="bio-edit-form">
+                  <textarea
+                    value={bioText}
+                    onChange={(e) => handleBioChange(e.target.value)}
+                    placeholder="Расскажите о себе..."
+                    maxLength={500}
+                    rows={4}
+                    className="bio-textarea"
                   />
-                </div>
-                <div className="social-input-group">
-                  <strong>
-                    <i className="fa fa-telegram social-icon" aria-hidden="true"></i>
-                    Telegram:
-                  </strong>
-                  <input
-                    type="text"
-                    value={socialLinks.telegram}
-                    onChange={(e) => handleSocialChange('telegram', e.target.value)}
-                    placeholder="@username или ссылка"
-                  />
-                </div>
-                <div className="social-input-group">
-                  <strong>
-                    <i className="fa fa-youtube social-icon" aria-hidden="true"></i>
-                    YouTube:
-                  </strong>
-                  <input
-                    type="text"
-                    value={socialLinks.youtube}
-                    onChange={(e) => handleSocialChange('youtube', e.target.value)}
-                    placeholder="@username или ссылка"
-                  />
-                </div>
-                <div className="social-input-group">
-                  <strong>
-                    <i className="fa fa-vk social-icon" aria-hidden="true"></i>
-                    VK:
-                  </strong>
-                  <input
-                    type="text"
-                    value={socialLinks.vk}
-                    onChange={(e) => handleSocialChange('vk', e.target.value)}
-                    placeholder="@username или ссылка"
-                  />
-                </div>
-                <div className="social-actions">
-                  <button 
-                    onClick={handleSaveSocial}
-                    className="btn-save"
-                    disabled={updateBioAndSocialMutation.isPending || !hasSocialChanges}
-                  >
-                    {updateBioAndSocialMutation.isPending ? 'Сохранение...' : 'Сохранить'}
-                  </button>
-                  <button 
-                    onClick={handleCancelSocial}
-                    className="btn-cancel"
-                    disabled={updateBioAndSocialMutation.isPending}
-                  >
-                    Отмена
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="social-links">
-                {currentUser?.instagram_url && currentUser?.instagram_username && (
-                  <a 
-                    href={currentUser.instagram_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    style={{ color: '#e7dfcc', textDecoration: 'none', gap: '1.5rem' }}
-                  >
-                    <i 
-                      className="fa fa-instagram social-icon" 
-                      aria-hidden="true"
-                      style={{ fontSize: '1.75rem', color: '#e7dfcc' }}
-                    ></i>
-                    <span 
-                      className="social-username"
-                      style={{ color: '#e7dfcc', fontSize: '1.5rem', fontWeight: 500 }}
+                  <div className="bio-actions">
+                    <button 
+                      onClick={handleSaveBio}
+                      className="btn-save"
+                      disabled={updateBioAndSocialMutation.isPending || !hasBioChanges}
                     >
-                      {currentUser.instagram_username}
-                    </span>
-                  </a>
-                )}
-                {currentUser?.telegram_url && currentUser?.telegram_username && (
-                  <a 
-                    href={currentUser.telegram_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    style={{ color: '#e7dfcc', textDecoration: 'none', gap: '1.5rem' }}
-                  >
-                    <i 
-                      className="fa fa-telegram social-icon" 
-                      aria-hidden="true"
-                      style={{ fontSize: '1.75rem', color: '#e7dfcc' }}
-                    ></i>
-                    <span 
-                      className="social-username"
-                      style={{ color: '#e7dfcc', fontSize: '1.5rem', fontWeight: 500 }}
+                      {updateBioAndSocialMutation.isPending ? 'Сохранение...' : 'Сохранить'}
+                    </button>
+                    <button 
+                      onClick={handleCancelBio}
+                      className="btn-cancel"
+                      disabled={updateBioAndSocialMutation.isPending}
                     >
-                      {currentUser.telegram_username}
-                    </span>
-                  </a>
-                )}
-                {currentUser?.youtube_url && currentUser?.youtube_username && (
-                  <a 
-                    href={currentUser.youtube_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    style={{ color: '#e7dfcc', textDecoration: 'none', gap: '1.5rem' }}
-                  >
-                    <i 
-                      className="fa fa-youtube social-icon" 
-                      aria-hidden="true"
-                      style={{ fontSize: '1.75rem', color: '#e7dfcc' }}
-                    ></i>
-                    <span 
-                      className="social-username"
-                      style={{ color: '#e7dfcc', fontSize: '1.5rem', fontWeight: 500 }}
-                    >
-                      {currentUser.youtube_username}
-                    </span>
-                  </a>
-                )}
-                {currentUser?.vk_url && currentUser?.vk_username && (
-                  <a 
-                    href={currentUser.vk_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    style={{ color: '#e7dfcc', textDecoration: 'none', gap: '1.5rem' }}
-                  >
-                    <i 
-                      className="fa fa-vk social-icon" 
-                      aria-hidden="true"
-                      style={{ fontSize: '1.75rem', color: '#e7dfcc' }}
-                    ></i>
-                    <span 
-                      className="social-username"
-                      style={{ color: '#e7dfcc', fontSize: '1.5rem', fontWeight: 500 }}
-                    >
-                      {currentUser.vk_username}
-                    </span>
-                  </a>
-                )}
-                {!currentUser?.instagram_url && !currentUser?.telegram_url && 
-                 !currentUser?.youtube_url && !currentUser?.vk_url && (
-                  <p className="no-social-links">
-                    {isOwnProfile ? 'Добавьте ссылки на ваши социальные сети' : 'Нет социальных сетей'}
+                      Отмена
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="profile-bio-content">
+                  <p className="profile-bio-text">
+                    {currentUser?.bio || (isOwnProfile ? 'Добавьте описание о себе' : 'Нет описания')}
                   </p>
+                </div>
+              )}
+            </div>
+
+            {/* Социальные сети */}
+            <div className="profile-social-section">
+              <div className="profile-social-header">
+                <div className="section-title">
+                  <i className="fa fa-share-alt" aria-hidden="true"></i>
+                  <strong>Социальные сети</strong>
+                </div>
+                {isOwnProfile && !isEditingSocial && (
+                  <button 
+                    onClick={() => setIsEditingSocial(true)}
+                    className="btn-edit-social-main"
+                  >
+                    <i className="fa fa-edit" aria-hidden="true"></i>
+                    Редактировать
+                  </button>
                 )}
               </div>
-            )}
+              {isOwnProfile && isEditingSocial ? (
+                <div className="social-edit-form">
+                  <div className="social-field">
+                    <label 
+                      className="social-label instagram-label"
+                      style={{
+                        display: 'flex',
+                        marginBottom: '1.25rem',
+                        marginTop: '0.5rem',
+                        color: '#e7dfcc',
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        alignItems: 'center',
+                        gap: '0.875rem',
+                        letterSpacing: '0.5px',
+                        textTransform: 'uppercase',
+                        fontFamily: '"Roboto", sans-serif',
+                        lineHeight: '1.5'
+                      }}
+                    >
+                      <i className="fa fa-instagram social-icon" aria-hidden="true"></i>
+                      Instagram:
+                    </label>
+                    <input
+                      type="text"
+                      className="social-input"
+                      value={socialLinks.instagram}
+                      onChange={(e) => handleSocialChange('instagram', e.target.value)}
+                      placeholder="@username или ссылка"
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '6px',
+                        fontSize: '0.95rem',
+                        fontFamily: '"Roboto", sans-serif',
+                        boxSizing: 'border-box',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        color: '#ffffff',
+                        lineHeight: '1.6',
+                        transition: 'all 0.3s ease',
+                        WebkitAppearance: 'none',
+                        MozAppearance: 'none',
+                        appearance: 'none'
+                      }}
+                    />
+                  </div>
+                  <div className="social-field">
+                    <label 
+                      className="social-label telegram-label"
+                      style={{
+                        display: 'flex',
+                        marginBottom: '1.25rem',
+                        marginTop: '0.5rem',
+                        color: '#e7dfcc',
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        alignItems: 'center',
+                        gap: '0.875rem',
+                        letterSpacing: '0.5px',
+                        textTransform: 'uppercase',
+                        fontFamily: '"Roboto", sans-serif',
+                        lineHeight: '1.5'
+                      }}
+                    >
+                      <i className="fa fa-telegram social-icon" aria-hidden="true"></i>
+                      Telegram:
+                    </label>
+                    <input
+                      type="text"
+                      className="social-input"
+                      value={socialLinks.telegram}
+                      onChange={(e) => handleSocialChange('telegram', e.target.value)}
+                      placeholder="@username или ссылка"
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '6px',
+                        fontSize: '0.95rem',
+                        fontFamily: '"Roboto", sans-serif',
+                        boxSizing: 'border-box',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        color: '#ffffff',
+                        lineHeight: '1.6',
+                        transition: 'all 0.3s ease',
+                        WebkitAppearance: 'none',
+                        MozAppearance: 'none',
+                        appearance: 'none'
+                      }}
+                    />
+                  </div>
+                  <div className="social-field">
+                    <label 
+                      className="social-label youtube-label"
+                      style={{
+                        display: 'flex',
+                        marginBottom: '1.25rem',
+                        marginTop: '0.5rem',
+                        color: '#e7dfcc',
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        alignItems: 'center',
+                        gap: '0.875rem',
+                        letterSpacing: '0.5px',
+                        textTransform: 'uppercase',
+                        fontFamily: '"Roboto", sans-serif',
+                        lineHeight: '1.5'
+                      }}
+                    >
+                      <i className="fa fa-youtube social-icon" aria-hidden="true"></i>
+                      YouTube:
+                    </label>
+                    <input
+                      type="text"
+                      className="social-input"
+                      value={socialLinks.youtube}
+                      onChange={(e) => handleSocialChange('youtube', e.target.value)}
+                      placeholder="@username или ссылка"
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '6px',
+                        fontSize: '0.95rem',
+                        fontFamily: '"Roboto", sans-serif',
+                        boxSizing: 'border-box',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        color: '#ffffff',
+                        lineHeight: '1.6',
+                        transition: 'all 0.3s ease',
+                        WebkitAppearance: 'none',
+                        MozAppearance: 'none',
+                        appearance: 'none'
+                      }}
+                    />
+                  </div>
+                  <div className="social-field">
+                    <label 
+                      className="social-label vk-label"
+                      style={{
+                        display: 'flex',
+                        marginBottom: '1.25rem',
+                        marginTop: '0.5rem',
+                        color: '#e7dfcc',
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        alignItems: 'center',
+                        gap: '0.875rem',
+                        letterSpacing: '0.5px',
+                        textTransform: 'uppercase',
+                        fontFamily: '"Roboto", sans-serif',
+                        lineHeight: '1.5'
+                      }}
+                    >
+                      <i className="fa fa-vk social-icon" aria-hidden="true"></i>
+                      VK:
+                    </label>
+                    <input
+                      type="text"
+                      className="social-input"
+                      value={socialLinks.vk}
+                      onChange={(e) => handleSocialChange('vk', e.target.value)}
+                      placeholder="@username или ссылка"
+                      style={{
+                        width: '100%',
+                        padding: '0.875rem 1rem',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '6px',
+                        fontSize: '0.95rem',
+                        fontFamily: '"Roboto", sans-serif',
+                        boxSizing: 'border-box',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        color: '#ffffff',
+                        lineHeight: '1.6',
+                        transition: 'all 0.3s ease',
+                        WebkitAppearance: 'none',
+                        MozAppearance: 'none',
+                        appearance: 'none'
+                      }}
+                    />
+                  </div>
+                  <div className="social-actions">
+                    <button 
+                      onClick={handleSaveSocial}
+                      className="btn-save"
+                      disabled={updateBioAndSocialMutation.isPending || !hasSocialChanges}
+                    >
+                      {updateBioAndSocialMutation.isPending ? 'Сохранение...' : 'Сохранить'}
+                    </button>
+                    <button 
+                      onClick={handleCancelSocial}
+                      className="btn-cancel"
+                      disabled={updateBioAndSocialMutation.isPending}
+                    >
+                      Отмена
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div 
+                  className="social-links"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '1.5rem'
+                  }}
+                >
+                  {currentUser?.instagram_url && currentUser?.instagram_username && (
+                    <a 
+                      href={currentUser.instagram_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="social-link social-link-instagram"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.75rem',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        padding: '1.5rem 2rem',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '12px',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        backdropFilter: 'blur(10px)',
+                        transition: 'all 0.3s ease',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                        width: '100%',
+                        maxWidth: '250px',
+                        minWidth: '180px',
+                        margin: 0,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <i className="fa fa-instagram social-icon" aria-hidden="true"></i>
+                      <span className="social-username">{currentUser.instagram_username}</span>
+                    </a>
+                  )}
+                  {currentUser?.telegram_url && currentUser?.telegram_username && (
+                    <a 
+                      href={currentUser.telegram_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="social-link social-link-telegram"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.75rem',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        padding: '1.5rem 2rem',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '12px',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        backdropFilter: 'blur(10px)',
+                        transition: 'all 0.3s ease',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                        width: '100%',
+                        maxWidth: '250px',
+                        minWidth: '180px',
+                        margin: 0,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <i className="fa fa-telegram social-icon" aria-hidden="true"></i>
+                      <span className="social-username">{currentUser.telegram_username}</span>
+                    </a>
+                  )}
+                  {currentUser?.youtube_url && currentUser?.youtube_username && (
+                    <a 
+                      href={currentUser.youtube_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="social-link social-link-youtube"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.75rem',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        padding: '1.5rem 2rem',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '12px',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        backdropFilter: 'blur(10px)',
+                        transition: 'all 0.3s ease',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                        width: '100%',
+                        maxWidth: '250px',
+                        minWidth: '180px',
+                        margin: 0,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <i className="fa fa-youtube social-icon" aria-hidden="true"></i>
+                      <span className="social-username">{currentUser.youtube_username}</span>
+                    </a>
+                  )}
+                  {currentUser?.vk_url && currentUser?.vk_username && (
+                    <a 
+                      href={currentUser.vk_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="social-link social-link-vk"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.75rem',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        padding: '1.5rem 2rem',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '12px',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        backdropFilter: 'blur(10px)',
+                        transition: 'all 0.3s ease',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                        width: '100%',
+                        maxWidth: '250px',
+                        minWidth: '180px',
+                        margin: 0,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <i className="fa fa-vk social-icon" aria-hidden="true"></i>
+                      <span className="social-username">{currentUser.vk_username}</span>
+                    </a>
+                  )}
+                  {!currentUser?.instagram_url && !currentUser?.telegram_url && 
+                   !currentUser?.youtube_url && !currentUser?.vk_url && (
+                    <p className="no-social-links">
+                      {isOwnProfile ? 'Добавьте ссылки на ваши социальные сети' : 'Нет социальных сетей'}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
